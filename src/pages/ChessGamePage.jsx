@@ -14,15 +14,18 @@ import { MoveHistory } from '../features/chess/components/MoveHistory'
 import { NewGameModal } from '../features/chess/components/NewGameModal'
 import { PlayerCard } from '../features/chess/components/PlayerCard'
 import { PromotionModal } from '../features/chess/components/PromotionModal'
+import { ThemeModal } from '../features/chess/components/ThemeModal'
 import { useChessGame } from '../features/chess/hooks/useChessGame'
 
 export const ChessGamePage = () => {
   const [isNewGameModalOpen, setIsNewGameModalOpen] = useState(false)
+  const [isThemeModalOpen, setIsThemeModalOpen] = useState(false)
 
   const {
     chess,
     playerColor,
     difficulty,
+    boardTheme,
     isFlipped,
     isMuted,
     selectedSquare,
@@ -44,6 +47,7 @@ export const ChessGamePage = () => {
     undoMove,
     toggleFlip,
     toggleMute,
+    changeBoardTheme,
   } = useChessGame()
 
   const isHumanTurn = turn === playerColor
@@ -93,6 +97,7 @@ export const ChessGamePage = () => {
 
                 <ChessBoard
                   chess={chess}
+                  boardTheme={boardTheme}
                   isFlipped={isFlipped}
                   selectedSquare={selectedSquare}
                   legalMoves={legalMoves}
@@ -121,6 +126,7 @@ export const ChessGamePage = () => {
             {/* Toolbar Kontrol */}
             <GameControls
               onOpenNewGame={() => setIsNewGameModalOpen(true)}
+              onOpenThemeModal={() => setIsThemeModalOpen(true)}
               onUndo={undoMove}
               onToggleFlip={toggleFlip}
               onToggleMute={toggleMute}
@@ -205,6 +211,14 @@ export const ChessGamePage = () => {
         playerColor={playerColor}
         onRestartSame={() => startNewGame(playerColor, difficulty)}
         onOpenNewGame={() => setIsNewGameModalOpen(true)}
+      />
+
+      {/* Modal Pemilihan Tema Papan */}
+      <ThemeModal
+        isOpen={isThemeModalOpen}
+        onClose={() => setIsThemeModalOpen(false)}
+        currentTheme={boardTheme}
+        onSelectTheme={changeBoardTheme}
       />
     </div>
   )

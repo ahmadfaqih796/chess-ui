@@ -34,7 +34,16 @@
 - **Highlight Terakhir:** Petak asal dan petak tujuan dari langkah terakhir disorot dengan warna kuning keemasan.
 - **Selebrasi Kemenangan:** Ledakan kembang api (*confetti*) ceria saat pemain berhasil men-skakmat lawan.
 
-### 5. 📊 Panel Permainan Lengkap & Bar Evaluasi Real-time
+### 5. 🎨 Koleksi Tema Papan Catur Mewah (*Board Theme Selector*)
+- Pemain dapat mengganti tema estetika visual papan catur secara instan melalui tombol palet pada *toolbar*:
+  - 🌿 **Hutan Zamrud (*Emerald Green*):** Nuansa hijau alami modern yang menyejukkan mata.
+  - 🪵 **Kayu Turnamen (*Classic Wood*):** Tekstur kayu mapel dan mahoni hangat standar turnamen dunia.
+  - 🌌 **Midnight Slate (*Dark Cyberpunk*):** Palet abu-abu malam dengan kontras tinggi yang futuristik.
+  - 🏛️ **Marmer Monokrom (*Monochrome Marble*):** Kemewahan marmer minimalis hitam-putih abadi.
+  - 👑 **Royal Amethyst (*Imperial Purple*):** Keanggunan ungu lavender kerajaan berpadu aksen emas permata.
+- Pilihan tema otomatis tersimpan di peramban (`localStorage`) sehingga selalu aktif saat Anda kembali bermain.
+
+### 6. 📊 Panel Permainan Lengkap & Bar Evaluasi Real-time
 - **Bar Evaluasi Real-time (*Evaluation Bar*):** Bar vertikal dinamis ala Lichess/Chess.com di samping papan catur yang bergeser secara halus mengikuti keunggulan posisi pemain vs komputer (misal: `+1.5`, `-2.0`, `0.0`, atau `M` jika skakmat).
 - **Pemantau Bidak Tangkapan & Selisih Materi:** Deretan bidak yang telah dimakan beserta skor keunggulan poin materi (+1, +3, dst).
 - **Notasi Langkah Catur:** Riwayat notasi resmi langkah pertandingan (contoh: `1. e4 e5`, `2. Nf3 Nc6`) yang otomatis bergulir ke langkah terbaru.
@@ -92,7 +101,8 @@ catur-ui/
 │   │       │   ├── MoveHistory.jsx     # Panel notasi langkah PGN
 │   │       │   ├── NewGameModal.jsx    # Dialog pilihan warna & tingkat kesulitan
 │   │       │   ├── PlayerCard.jsx      # Kartu info pemain & indikator giliran
-│   │       │   └── PromotionModal.jsx   # Dialog promosi pion
+│   │       │   ├── PromotionModal.jsx   # Dialog promosi pion
+│   │       │   └── ThemeModal.jsx      # Modal pengganti tema visual papan catur
 │   │       ├── constants/
 │   │       │   └── chessConstants.js   # Konfigurasi level AI, nilai bidak, warna
 │   │       ├── hooks/

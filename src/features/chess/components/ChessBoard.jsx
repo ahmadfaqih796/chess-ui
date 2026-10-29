@@ -1,18 +1,22 @@
 /**
  * Komponen Papan Catur Utama
- * Menangani render petak 8x8, highlight langkah, indikator skak, dan interaksi sentuh/klik.
+ * Menangani render petak 8x8, penyesuaian tema warna dinamis, highlight langkah, indikator skak, dan interaksi sentuh/klik.
  */
 
+import { BOARD_THEMES } from '../constants/chessConstants'
 import { ChessPiece } from './ChessPiece'
 
 export const ChessBoard = ({
   chess,
+  boardTheme = 'emerald',
   isFlipped = false,
   selectedSquare = null,
   legalMoves = [],
   lastMove = null,
   onSquareClick = () => {},
 }) => {
+  const currentTheme = BOARD_THEMES[boardTheme] || BOARD_THEMES.emerald
+
   const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
   const ranks = ['8', '7', '6', '5', '4', '3', '2', '1']
 
@@ -55,13 +59,12 @@ export const ChessBoard = ({
             const isLegal = legalMoveSquares.has(square)
             const isCheckedKing = checkedKingSquare === square
 
-            // Gaya warna latar petak
-            let bgClass = isLight ? 'bg-[#ebecd0]' : 'bg-[#739552]'
-
+            // Tentukan warna latar petak berdasarkan tema aktif
+            let squareBg = isLight ? currentTheme.lightBg : currentTheme.darkBg
             if (isSelected) {
-              bgClass = isLight ? 'bg-[#f7ec74]' : 'bg-[#dac33c]'
+              squareBg = isLight ? currentTheme.selectedLight : currentTheme.selectedDark
             } else if (isLastMove) {
-              bgClass = isLight ? 'bg-[#f5f682]/90' : 'bg-[#b9ca43]/90'
+              squareBg = isLight ? currentTheme.lastMoveLight : currentTheme.lastMoveDark
             }
 
             return (
@@ -69,7 +72,8 @@ export const ChessBoard = ({
                 key={square}
                 type="button"
                 onClick={() => onSquareClick(square)}
-                className={`relative flex aspect-square w-full items-center justify-center p-1 transition-colors duration-150 focus:outline-none ${bgClass} ${
+                style={{ backgroundColor: squareBg }}
+                className={`relative flex aspect-square w-full items-center justify-center p-1 transition-colors duration-150 focus:outline-none ${
                   isCheckedKing ? 'ring-4 ring-rose-500 ring-inset animate-pulse' : ''
                 }`}
                 aria-label={`Petak ${square} ${piece ? `${piece.color} ${piece.type}` : 'kosong'}`}
@@ -77,18 +81,16 @@ export const ChessBoard = ({
                 {/* Notasi Koordinat di Petak Tepi */}
                 {fileIdx === 0 && (
                   <span
-                    className={`absolute top-0.5 left-1 text-[9px] font-bold sm:text-[11px] pointer-events-none ${
-                      isLight ? 'text-[#739552]' : 'text-[#ebecd0]'
-                    }`}
+                    style={{ color: isLight ? currentTheme.darkBg : currentTheme.lightBg }}
+                    className="absolute top-0.5 left-1 text-[9px] font-bold sm:text-[11px] pointer-events-none opacity-85"
                   >
                     {rank}
                   </span>
                 )}
                 {rankIdx === 7 && (
                   <span
-                    className={`absolute right-1 bottom-0.5 text-[9px] font-bold sm:text-[11px] pointer-events-none ${
-                      isLight ? 'text-[#739552]' : 'text-[#ebecd0]'
-                    }`}
+                    style={{ color: isLight ? currentTheme.darkBg : currentTheme.lightBg }}
+                    className="absolute right-1 bottom-0.5 text-[9px] font-bold sm:text-[11px] pointer-events-none opacity-85"
                   >
                     {file}
                   </span>
@@ -125,4 +127,3 @@ export const ChessBoard = ({
     </div>
   )
 }
-

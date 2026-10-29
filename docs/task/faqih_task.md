@@ -12,4 +12,5 @@ Catur UI
 10. Memperbaiki dan mengoptimasi komponen navigasi atas (navbar) agar sepenuhnya responsif di semua resolusi layar perangkat seluler tanpa merusak tata letak
 11. Menyusun dokumentasi komprehensif proyek pada README.md yang memuat rincian fitur utama, tumpukan teknologi, arsitektur modular, panduan eksekusi aplikasi, serta penjelasan algoritma AI Minimax
 12. Mengembangkan komponen Bar Evaluasi Real-Time (EvaluationBar.jsx) di samping papan catur lengkap dengan formula sigmoid keunggulan materi dan posisi, penyesuaian rotasi papan (auto-flip), serta transisi animasi yang mulus
+13. Mengembangkan sistem Pemilihan Tema Papan Catur (ThemeModal.jsx) dengan 5 preset warna elegan (Hutan Zamrud, Kayu Turnamen, Midnight Slate, Marmer Monokrom, Royal Amethyst) yang terintegrasi dinamis dan tersimpan di localStorage
 

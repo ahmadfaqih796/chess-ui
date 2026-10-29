@@ -9,3 +9,4 @@ Daftar pekerjaan dan prioritas fitur proyek Catur UI:
 - [x] Merancang branding eksklusif "Faqih Chess" dan memperbaiki responsivitas navbar pada layar mobile/tablet.
 - [x] Menyusun dokumentasi lengkap proyek pada README.md (fitur, tumpukan teknologi, struktur direktori, cara menjalankan aplikasi, dan cara kerja algoritma AI).
 - [x] Membangun fitur Bar Evaluasi Real-time (Evaluation Bar) di samping papan catur lengkap dengan kalkulasi matematis sigmoid, teks keunggulan posisi, dan penyesuaian rotasi balik (auto-flip).
+- [x] Membangun fitur Pemilih Tema Papan Catur (Board Theme Selector) dengan 5 palet mewah (Hutan Zamrud, Kayu Turnamen, Midnight Slate, Marmer Monokrom, Royal Amethyst) beserta persistensi localStorage.

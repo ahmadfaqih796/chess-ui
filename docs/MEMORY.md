@@ -20,8 +20,8 @@
 
 ## Architectural Decisions
 - **Feature-Sliced Architecture (`src/features/chess/`)**:
-  - `components/`: `ChessNavbar.jsx` (Navbar responsif dengan branding Faqih Chess), `EvaluationBar.jsx` (Bar evaluasi real-time ala Lichess/Chess.com), `ChessBoard.jsx`, `ChessPiece.jsx`, `CapturedPieces.jsx`, `PlayerCard.jsx`, `MoveHistory.jsx`, `PromotionModal.jsx`, `NewGameModal.jsx`, `GameOverModal.jsx`, `GameControls.jsx`.
-  - `hooks/`: `useChessGame.js` (State murni reaktif sesuai Rules of React 19 tanpa mutasi ref saat render).
+  - `components/`: `ChessNavbar.jsx` (Navbar responsif dengan branding Faqih Chess), `EvaluationBar.jsx` (Bar evaluasi real-time ala Lichess/Chess.com), `ThemeModal.jsx` (Pemilihan tema visual papan), `ChessBoard.jsx`, `ChessPiece.jsx`, `CapturedPieces.jsx`, `PlayerCard.jsx`, `MoveHistory.jsx`, `PromotionModal.jsx`, `NewGameModal.jsx`, `GameOverModal.jsx`, `GameControls.jsx`.
+  - `hooks/`: `useChessGame.js` (State murni reaktif sesuai Rules of React 19 dengan integrasi localStorage tema papan).
   - `utils/`: `ai.js` (Mesin AI Minimax & PST), `audio.js` (Synthesizer Web Audio API), `chessHelpers.js` (Kalkulasi materi dan notasi langkah), `evaluation.js` (Kalkulasi bar evaluasi berbasis sigmoid).
   - `constants/`: `chessConstants.js` (Tingkat kesulitan, nilai bidak, warna).
   - `pages/`: `ChessGamePage.jsx`.

@@ -26,6 +26,12 @@ export const useChessGame = () => {
   const [difficulty, setDifficulty] = useState('medium') // 'easy' | 'medium' | 'hard' | 'expert'
   const [isFlipped, setIsFlipped] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
+  const [boardTheme, setBoardTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('faqih_chess_theme') || 'emerald'
+    }
+    return 'emerald'
+  })
 
   // Status interaksi papan
   const [selectedSquare, setSelectedSquare] = useState(null)
@@ -257,10 +263,22 @@ export const useChessGame = () => {
     setIsMuted((prev) => !prev)
   }
 
+  const changeBoardTheme = (themeId) => {
+    setBoardTheme(themeId)
+    if (typeof window !== 'undefined') {
+      try {
+        localStorage.setItem('faqih_chess_theme', themeId)
+      } catch (err) {
+        console.warn('Gagal menyimpan tema ke localStorage:', err)
+      }
+    }
+  }
+
   return {
     chess: game,
     playerColor,
     difficulty,
+    boardTheme,
     isFlipped,
     isMuted,
     selectedSquare,
@@ -283,5 +301,6 @@ export const useChessGame = () => {
     toggleFlip,
     toggleMute,
     setDifficulty,
+    changeBoardTheme,
   }
 }
