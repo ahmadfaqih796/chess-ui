@@ -37,5 +37,31 @@
     ],
     "user_notes": "Tampilan navigasi kini mengusung merek Faqih Chess dan tampil proporsional tanpa terpotong di layar smartphone maupun desktop",
     "programmer_notes": "Mengekstrak dan merancang src/features/chess/components/ChessNavbar.jsx dengan styling Tailwind CSS v4, mengatur breakpoint responsif teks dan tombol, memperbarui index.html, serta mengintegrasikan ChessNavbar ke ChessGamePage.jsx"
+  },
+  {
+    "name": "Catur UI | Dokumentasi Komprehensif README",
+    "description": "Menyusun dokumentasi lengkap proyek pada berkas README.md yang mencakup ringkasan fitur, tumpukan teknologi, struktur arsitektur modular, instruksi eksekusi, serta cara kerja mesin AI",
+    "status": "completed",
+    "start_date": "2026-10-29",
+    "estimated_finish": "2026-10-29",
+    "moduleId": "94fe7b6b-2cb9-4270-ad50-38fb9ef890a9",
+    "assignees": [
+      "0be8a08d-2449-4f4c-a318-cf7b8c44afee"
+    ],
+    "user_notes": "Dokumentasi README.md telah selesai disusun dengan format rapi dan detail sehingga memudahkan pengembang lain dalam memahami maupun menjalankan aplikasi",
+    "programmer_notes": "Menulis dokumentasi teknis mendalam di README.md mencakup arsitektur Feature-Sliced Design, setup Vite 8, React 19, Tailwind v4, Web Audio API, serta penjelasan matematis Minimax dan Piece-Square Tables"
+  },
+  {
+    "name": "Catur UI | Bar Evaluasi Real-Time (Evaluation Bar)",
+    "description": "Membangun komponen bar evaluasi posisi dinamis di samping papan catur ala Lichess/Chess.com dengan kalkulasi fungsi logistik sigmoid, label keunggulan angka atau skakmat, serta transisi animasi halus",
+    "status": "completed",
+    "start_date": "2026-10-29",
+    "estimated_finish": "2026-10-29",
+    "moduleId": "94fe7b6b-2cb9-4270-ad50-38fb9ef890a9",
+    "assignees": [
+      "0be8a08d-2449-4f4c-a318-cf7b8c44afee"
+    ],
+    "user_notes": "Pemain kini dapat melihat secara visual siapa yang sedang unggul dalam pertandingan melalui Bar Evaluasi vertikal real-time di samping papan",
+    "programmer_notes": "Membuat src/features/chess/utils/evaluation.js dengan fungsi sigmoid konversi skor ke persentase, membangun src/features/chess/components/EvaluationBar.jsx dengan flex-ratio rendering, serta mengintegrasikannya ke useChessGame.js dan ChessGamePage.jsx"
   }
 ]

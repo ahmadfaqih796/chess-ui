@@ -7,6 +7,7 @@ import { Flame, Sparkles } from 'lucide-react'
 import { useState } from 'react'
 import { ChessBoard } from '../features/chess/components/ChessBoard'
 import { ChessNavbar } from '../features/chess/components/ChessNavbar'
+import { EvaluationBar } from '../features/chess/components/EvaluationBar'
 import { GameControls } from '../features/chess/components/GameControls'
 import { GameOverModal } from '../features/chess/components/GameOverModal'
 import { MoveHistory } from '../features/chess/components/MoveHistory'
@@ -33,6 +34,7 @@ export const ChessGamePage = () => {
     history,
     formattedHistory,
     capturedData,
+    evaluation,
     isCheck,
     turn,
     handleSquareClick,
@@ -68,7 +70,7 @@ export const ChessGamePage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-6 items-start">
           {/* Kolom Kiri: Papan Catur & Info Pemain */}
           <div className="flex flex-col items-center">
-            <div className="w-full max-w-[560px] space-y-2.5">
+            <div className="w-full max-w-[585px] space-y-2.5">
               {/* Kartu Pemain Atas (Lawan / AI) */}
               <PlayerCard
                 isAI={isTopAI}
@@ -82,8 +84,13 @@ export const ChessGamePage = () => {
                 advantage={topColor === 'w' ? capturedData.whiteAdvantage : capturedData.blackAdvantage}
               />
 
-              {/* Komponen Papan Catur */}
-              <div className="relative flex justify-center py-1">
+              {/* Papan Catur & Bar Evaluasi Posisi Real-time */}
+              <div className="relative flex items-stretch justify-center gap-2 sm:gap-2.5 py-1">
+                <EvaluationBar
+                  evaluation={evaluation}
+                  isFlipped={isFlipped}
+                />
+
                 <ChessBoard
                   chess={chess}
                   isFlipped={isFlipped}

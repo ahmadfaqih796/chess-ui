@@ -10,4 +10,6 @@ Catur UI
 8. Menyediakan dialog promosi pion, riwayat notasi langkah catur, pemantau bidak tangkapan beserta selisih materi, serta fitur pembatalan langkah (Undo)
 9. Membangun identitas merek "Faqih Chess" dengan tipografi emas elegan, emblem mahkota, dan meta judul dokumen
 10. Memperbaiki dan mengoptimasi komponen navigasi atas (navbar) agar sepenuhnya responsif di semua resolusi layar perangkat seluler tanpa merusak tata letak
+11. Menyusun dokumentasi komprehensif proyek pada README.md yang memuat rincian fitur utama, tumpukan teknologi, arsitektur modular, panduan eksekusi aplikasi, serta penjelasan algoritma AI Minimax
+12. Mengembangkan komponen Bar Evaluasi Real-Time (EvaluationBar.jsx) di samping papan catur lengkap dengan formula sigmoid keunggulan materi dan posisi, penyesuaian rotasi papan (auto-flip), serta transisi animasi yang mulus
 

@@ -15,6 +15,7 @@ import {
   playVictorySound,
 } from '../utils/audio'
 import { calculateCapturedPieces, formatMoveHistory } from '../utils/chessHelpers'
+import { calculateEvaluation } from '../utils/evaluation'
 
 export const useChessGame = () => {
   // Instance chess.js disimpan langsung sebagai state murni React
@@ -271,6 +272,7 @@ export const useChessGame = () => {
     history: game.history(),
     formattedHistory: formatMoveHistory(game.history()),
     capturedData: calculateCapturedPieces(game),
+    evaluation: calculateEvaluation(game),
     isCheck: game.isCheck(),
     turn: game.turn(),
     handleSquareClick,

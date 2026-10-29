@@ -34,7 +34,8 @@
 - **Highlight Terakhir:** Petak asal dan petak tujuan dari langkah terakhir disorot dengan warna kuning keemasan.
 - **Selebrasi Kemenangan:** Ledakan kembang api (*confetti*) ceria saat pemain berhasil men-skakmat lawan.
 
-### 5. 📊 Panel Permainan Lengkap
+### 5. 📊 Panel Permainan Lengkap & Bar Evaluasi Real-time
+- **Bar Evaluasi Real-time (*Evaluation Bar*):** Bar vertikal dinamis ala Lichess/Chess.com di samping papan catur yang bergeser secara halus mengikuti keunggulan posisi pemain vs komputer (misal: `+1.5`, `-2.0`, `0.0`, atau `M` jika skakmat).
 - **Pemantau Bidak Tangkapan & Selisih Materi:** Deretan bidak yang telah dimakan beserta skor keunggulan poin materi (+1, +3, dst).
 - **Notasi Langkah Catur:** Riwayat notasi resmi langkah pertandingan (contoh: `1. e4 e5`, `2. Nf3 Nc6`) yang otomatis bergulir ke langkah terbaru.
 - **Dialog Promosi Pion:** Pilihan modal elegan saat pion mencapai baris akhir (Ratu, Benteng, Gajah, atau Kuda).
@@ -85,6 +86,7 @@ catur-ui/
 │   │       │   ├── ChessBoard.jsx      # Papan catur 8x8 interaktif
 │   │       │   ├── ChessNavbar.jsx     # Navigasi atas responsif Faqih Chess
 │   │       │   ├── ChessPiece.jsx      # Render vektor SVG semua bidak
+│   │       │   ├── EvaluationBar.jsx   # Bar evaluasi posisi real-time
 │   │       │   ├── GameControls.jsx    # Toolbar kontrol (Undo, Flip, Mute, New Game)
 │   │       │   ├── GameOverModal.jsx   # Modal hasil skakmat/remis
 │   │       │   ├── MoveHistory.jsx     # Panel notasi langkah PGN
@@ -98,7 +100,8 @@ catur-ui/
 │   │       └── utils/
 │   │           ├── ai.js               # Algoritma AI Minimax, Alpha-Beta & PST
 │   │           ├── audio.js            # Sintesis Web Audio API
-│   │           └── chessHelpers.js     # Kalkulasi selisih materi & format langkah
+│   │           ├── chessHelpers.js     # Kalkulasi selisih materi & format langkah
+│   │           └── evaluation.js       # Kalkulasi matematis bar evaluasi & sigmoid
 │   ├── pages/
 │   │   └── ChessGamePage.jsx   # Halaman utama arena pertandingan
 │   ├── utils/
