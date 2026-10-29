@@ -3,14 +3,16 @@
  * Didesain modern, mewah, dan sepenuhnya responsif di semua ukuran layar (Mobile hingga Desktop).
  */
 
-import { Crown, Sparkles } from 'lucide-react'
-import { DIFFICULTY_LEVELS } from '../constants/chessConstants'
+import { Crown, Sparkles, Timer } from 'lucide-react'
+import { DIFFICULTY_LEVELS, TIME_CONTROLS } from '../constants/chessConstants'
 
 export const ChessNavbar = ({
   difficulty = 'medium',
+  timeControl = 'rapid_10',
   onOpenNewGame = () => {},
 }) => {
   const diffInfo = DIFFICULTY_LEVELS[difficulty.toUpperCase()] || DIFFICULTY_LEVELS.MEDIUM
+  const timeInfo = TIME_CONTROLS[timeControl.toUpperCase()] || TIME_CONTROLS.RAPID_10
 
   return (
     <header className="sticky top-0 z-40 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md shadow-lg shadow-black/20">
@@ -40,13 +42,24 @@ export const ChessNavbar = ({
         </div>
 
         {/* Info Mode & Tombol Aksi Header */}
-        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
-          {/* Badge Tingkat Kesulitan (Tetap terlihat rapi di layar mobile) */}
-          <div className="flex items-center gap-1 sm:gap-2 rounded-lg sm:rounded-xl border border-slate-800 bg-slate-900/90 px-2 py-1 sm:px-3 sm:py-1.5 text-[11px] sm:text-xs">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+          {/* Badge Tingkat Kesulitan */}
+          <div className="flex items-center gap-1 sm:gap-1.5 rounded-lg sm:rounded-xl border border-slate-800 bg-slate-900/90 px-2 py-1 sm:px-2.5 sm:py-1.5 text-[11px] sm:text-xs">
             <span className="hidden md:inline text-slate-400 font-medium">Level:</span>
             <span className={`font-bold rounded px-1.5 py-0.5 border ${diffInfo.badgeColor}`}>
               {diffInfo.name}
             </span>
+          </div>
+
+          {/* Badge Mode Waktu (Jam Catur) */}
+          <div className="flex items-center gap-1 sm:gap-1.5 rounded-lg sm:rounded-xl border border-slate-800 bg-slate-900/90 px-2 py-1 sm:px-2.5 sm:py-1.5 text-[11px] sm:text-xs">
+            <Timer className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-amber-400" />
+            <span className="font-semibold text-slate-200">{timeInfo.name}</span>
+            {timeInfo.seconds && (
+              <span className="text-[10px] text-slate-400 hidden sm:inline">
+                ({timeInfo.subtitle})
+              </span>
+            )}
           </div>
 
           {/* Tombol Pengaturan Game Baru */}

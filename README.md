@@ -56,7 +56,18 @@
 - Dilengkapi kartu ulasan taktis dalam bahasa Indonesia dan tombol *"Terapkan Langkah"* untuk mengeksekusi langkah secara instan.
 - Efek audio lonceng kilau ceria (*chime*) yang disintesis via Web Audio API.
 
-### 8. 📱 Desain Responsif & Adaptif
+### 8. ⏱️ Jam Catur Kompetitif (*Chess Clock / Mode Waktu*)
+- Pengaturan format waktu resmi turnamen dunia:
+  - ⏱️ **Rapid (10 Menit):** Format standar catur cepat yang seimbang untuk berpikir taktis.
+  - ⚡ **Blitz (5 Menit):** Ritme seru penuh adrenalin dan kalkulasi instan.
+  - 🚀 **Bullet (3 Menit):** Pertarungan refleks kilat tanpa ruang untuk ragu.
+  - ☕ **Santai (Tanpa Waktu):** Mode bebas tanpa tekanan jam catur untuk analisa mendalam.
+- **Tampilan Timer Digital Monospace:** Terintegrasi di kartu masing-masing pemain dengan indikator giliran aktif.
+- **Peringatan Waktu Menipis (*Low-Time Alert*):** Warna berubah kuning saat sisa waktu $\le 30$ detik, dan berdenyut merah menyala (*pulse animation*) saat $\le 10$ detik.
+- **Efek Audio Detak Jam (*Ticking Sound*):** Suara detak jam digital sintetis yang berbunyi di detik-detik kritis giliran pemain.
+- **Deteksi Otomatis Kalah Waktu (*Timeout*):** Permainan otomatis berakhir dengan bel penalti waktu habis (*timeout buzzer*) jika jam mencapai 00:00.
+
+### 9. 📱 Desain Responsif & Adaptif
 - Menggunakan pendekatan *Mobile-First Design* dengan Tailwind CSS v4.
 - Tampilan navbar adaptif: teks dan ikon terorganisasi rapi tanpa terpotong di layar ponsel (320px–420px), tablet, hingga monitor resolusi tinggi.
 

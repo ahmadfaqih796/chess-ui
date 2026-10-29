@@ -5,7 +5,7 @@
 
 import confetti from 'canvas-confetti'
 import { Chess } from 'chess.js'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { findBestMove } from '../utils/ai'
 import {
   playCaptureSound,
@@ -13,11 +13,14 @@ import {
   playDefeatSound,
   playHintSound,
   playMoveSound,
+  playTickSound,
+  playTimeoutSound,
   playVictorySound,
 } from '../utils/audio'
 import { calculateCapturedPieces, formatMoveHistory } from '../utils/chessHelpers'
 import { calculateEvaluation } from '../utils/evaluation'
 import { generateHint } from '../utils/hintGenerator'
+import { TIME_CONTROLS } from '../constants/chessConstants'
 
 export const useChessGame = () => {
   // Instance chess.js disimpan langsung sebagai state murni React
@@ -46,6 +49,80 @@ export const useChessGame = () => {
   const [isThinking, setIsThinking] = useState(false)
   const [isHintLoading, setIsHintLoading] = useState(false)
   const [gameResult, setGameResult] = useState(null) // { isOver: boolean, winner: 'w'|'b'|'draw', reason: string }
+
+  // Pengaturan Jam Catur (Chess Clock)
+  const [timeControl, setTimeControl] = useState('rapid_10')
+  const [whiteTime, setWhiteTime] = useState(600)
+  const [blackTime, setBlackTime] = useState(600)
+  const [isClockRunning, setIsClockRunning] = useState(false)
+
+  // Pengatur detak jam catur aktif secara real-time
+  useEffect(() => {
+    if (gameResult?.isOver || !isClockRunning) return
+
+    const currentConfig = TIME_CONTROLS[timeControl.toUpperCase()] || TIME_CONTROLS.RAPID_10
+    if (!currentConfig.seconds) return // Mode Santai (Tanpa Batasan Waktu)
+
+    const timer = setInterval(() => {
+      const currentTurn = game.turn()
+
+      if (currentTurn === 'w') {
+        setWhiteTime((prev) => {
+          if (prev === null) return null
+          if (prev <= 1) {
+            clearInterval(timer)
+            const winner = 'b'
+            const reason = 'Waktu Putih Habis (Timeout)'
+            setGameResult({ isOver: true, winner, reason })
+            playTimeoutSound(isMuted)
+            if (playerColor === 'b') {
+              playVictorySound(isMuted)
+              confetti({
+                particleCount: 120,
+                spread: 70,
+                origin: { y: 0.6 },
+              })
+            } else {
+              playDefeatSound(isMuted)
+            }
+            return 0
+          }
+          if (playerColor === 'w' && prev <= 11) {
+            playTickSound(isMuted)
+          }
+          return prev - 1
+        })
+      } else {
+        setBlackTime((prev) => {
+          if (prev === null) return null
+          if (prev <= 1) {
+            clearInterval(timer)
+            const winner = 'w'
+            const reason = 'Waktu Hitam Habis (Timeout)'
+            setGameResult({ isOver: true, winner, reason })
+            playTimeoutSound(isMuted)
+            if (playerColor === 'w') {
+              playVictorySound(isMuted)
+              confetti({
+                particleCount: 120,
+                spread: 70,
+                origin: { y: 0.6 },
+              })
+            } else {
+              playDefeatSound(isMuted)
+            }
+            return 0
+          }
+          if (playerColor === 'b' && prev <= 11) {
+            playTickSound(isMuted)
+          }
+          return prev - 1
+        })
+      }
+    }, 1000)
+
+    return () => clearInterval(timer)
+  }, [game, gameResult, timeControl, isClockRunning, isMuted, playerColor])
 
   // Cek apakah permainan telah berakhir
   const checkEndGame = (currentGame) => {
@@ -107,6 +184,7 @@ export const useChessGame = () => {
 
             setLastMove({ from: moveResult.from, to: moveResult.to })
             setGame(nextGame)
+            setIsClockRunning(true)
             checkEndGame(nextGame)
           }
         } catch (error) {
@@ -139,6 +217,7 @@ export const useChessGame = () => {
 
         setLastMove({ from: moveResult.from, to: moveResult.to })
         setGame(nextGame)
+        setIsClockRunning(true)
         checkEndGame(nextGame)
 
         // Jika giliran berikutnya milik AI dan game belum berakhir
@@ -208,11 +287,22 @@ export const useChessGame = () => {
   }
 
   // Memulai game baru
-  const startNewGame = (newPlayerColor = playerColor, newDifficulty = difficulty) => {
+  const startNewGame = (
+    newPlayerColor = playerColor,
+    newDifficulty = difficulty,
+    newTimeControl = timeControl
+  ) => {
     const freshGame = new Chess()
+    const chosenTime = newTimeControl || timeControl
+    const timeConfig = TIME_CONTROLS[chosenTime.toUpperCase()] || TIME_CONTROLS.RAPID_10
+
     setGame(freshGame)
     setPlayerColor(newPlayerColor)
     setDifficulty(newDifficulty)
+    setTimeControl(chosenTime)
+    setWhiteTime(timeConfig.seconds)
+    setBlackTime(timeConfig.seconds)
+    setIsClockRunning(false)
     setIsFlipped(newPlayerColor === 'b')
     setSelectedSquare(null)
     setLegalMoves([])
@@ -232,6 +322,7 @@ export const useChessGame = () => {
           const moveRes = openingGame.move(firstMove)
           playMoveSound(isMuted)
           setGame(openingGame)
+          setIsClockRunning(true)
           if (moveRes) {
             setLastMove({ from: moveRes.from, to: moveRes.to })
           }
@@ -260,6 +351,10 @@ export const useChessGame = () => {
     setHint(null)
     setGameResult(null)
     setLastMove(null)
+
+    if (undoneGame.history().length === 0) {
+      setIsClockRunning(false)
+    }
   }
 
   const toggleFlip = () => {
@@ -321,6 +416,10 @@ export const useChessGame = () => {
     playerColor,
     difficulty,
     boardTheme,
+    timeControl,
+    whiteTime,
+    blackTime,
+    isClockRunning,
     isFlipped,
     isMuted,
     selectedSquare,
@@ -345,6 +444,7 @@ export const useChessGame = () => {
     toggleFlip,
     toggleMute,
     setDifficulty,
+    setTimeControl,
     changeBoardTheme,
     requestHint,
     applyHint,

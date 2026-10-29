@@ -15,4 +15,5 @@ Catur UI
 13. Mengembangkan sistem Pemilihan Tema Papan Catur (ThemeModal.jsx) dengan 5 preset warna elegan (Hutan Zamrud, Kayu Turnamen, Midnight Slate, Marmer Monokrom, Royal Amethyst) yang terintegrasi dinamis dan tersimpan di localStorage
 14. Mengembangkan Sistem Petunjuk Cerdas (Smart Hint System) lengkap dengan sorotan petak neon cyan/emerald, kartu ulasan taktik bahasa Indonesia, dan efek audio kilau chimes
 15. Menelusuri dan menuntaskan kendala peramban membeku (Halaman Tidak Merespons) dengan mengoptimasi algoritma Minimax menggunakan evaluasi SAN instan, pemangkasan kandidat, dan eksekusi non-blocking asynchronous
+16. Membangun fitur Jam Catur Kompetitif (Chess Clock) lengkap dengan 4 mode waktu turnamen (Rapid 10m, Blitz 5m, Bullet 3m, Santai), visual timer digital di kartu pemain, peringatan waktu kritis, synthesizer audio detak jam dan buzzer timeout, serta penentuan kalah waktu otomatis
 

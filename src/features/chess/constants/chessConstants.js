@@ -62,6 +62,42 @@ export const PIECE_NAMES = {
   k: 'Raja',
 }
 
+// Opsi Batasan Waktu (Chess Clock)
+export const TIME_CONTROLS = {
+  RAPID_10: {
+    id: 'rapid_10',
+    name: 'Rapid',
+    subtitle: '10 Menit',
+    seconds: 600,
+    badgeColor: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40',
+    description: 'Format catur cepat standar turnamen. Cukup waktu untuk merancang strategi matang.',
+  },
+  BLITZ_5: {
+    id: 'blitz_5',
+    name: 'Blitz',
+    subtitle: '5 Menit',
+    seconds: 300,
+    badgeColor: 'bg-amber-500/20 text-amber-400 border-amber-500/40',
+    description: 'Cepat & penuh adrenalin! Menguji kecepatan kalkulasi taktik dan insting Anda.',
+  },
+  BULLET_3: {
+    id: 'bullet_3',
+    name: 'Bullet',
+    subtitle: '3 Menit',
+    seconds: 180,
+    badgeColor: 'bg-rose-500/20 text-rose-400 border-rose-500/40',
+    description: 'Pertarungan refleks kilat. Setiap detik sangat berharga tanpa jeda berpikir.',
+  },
+  UNLIMITED: {
+    id: 'unlimited',
+    name: 'Santai',
+    subtitle: 'Tanpa Waktu',
+    seconds: null,
+    badgeColor: 'bg-indigo-500/20 text-indigo-400 border-indigo-500/40',
+    description: 'Bermain santai tanpa tekanan jam catur. Ideal untuk pemula dan eksplorasi.',
+  },
+}
+
 // Tema warna papan catur yang kaya dan variatif
 export const BOARD_THEMES = {
   emerald: {

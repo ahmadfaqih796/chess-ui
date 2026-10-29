@@ -27,6 +27,10 @@ export const ChessGamePage = () => {
     playerColor,
     difficulty,
     boardTheme,
+    timeControl,
+    whiteTime,
+    blackTime,
+    isClockRunning,
     isFlipped,
     isMuted,
     selectedSquare,
@@ -67,11 +71,15 @@ export const ChessGamePage = () => {
   const isTopAI = topColor !== playerColor
   const isBottomAI = bottomColor !== playerColor
 
+  const topTime = topColor === 'w' ? whiteTime : blackTime
+  const bottomTime = bottomColor === 'w' ? whiteTime : blackTime
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100 antialiased selection:bg-amber-500 selection:text-slate-950">
       {/* Header / Navbar Utama Responsif Faqih Chess */}
       <ChessNavbar
         difficulty={difficulty}
+        timeControl={timeControl}
         onOpenNewGame={() => setIsNewGameModalOpen(true)}
       />
 
@@ -92,6 +100,8 @@ export const ChessGamePage = () => {
                   topColor === 'w' ? capturedData.whiteCaptured : capturedData.blackCaptured
                 }
                 advantage={topColor === 'w' ? capturedData.whiteAdvantage : capturedData.blackAdvantage}
+                timeLeft={topTime}
+                isClockRunning={isClockRunning}
               />
 
               {/* Banner Saran Langkah Cerdas (Smart Hint) */}
@@ -133,6 +143,8 @@ export const ChessGamePage = () => {
                   bottomColor === 'w' ? capturedData.whiteCaptured : capturedData.blackCaptured
                 }
                 advantage={bottomColor === 'w' ? capturedData.whiteAdvantage : capturedData.blackAdvantage}
+                timeLeft={bottomTime}
+                isClockRunning={isClockRunning}
               />
             </div>
           </div>
@@ -221,6 +233,7 @@ export const ChessGamePage = () => {
         onClose={() => setIsNewGameModalOpen(false)}
         currentSide={playerColor}
         currentDifficulty={difficulty}
+        currentTimeControl={timeControl}
         onStartGame={startNewGame}
       />
 
@@ -228,7 +241,7 @@ export const ChessGamePage = () => {
       <GameOverModal
         gameResult={gameResult}
         playerColor={playerColor}
-        onRestartSame={() => startNewGame(playerColor, difficulty)}
+        onRestartSame={() => startNewGame(playerColor, difficulty, timeControl)}
         onOpenNewGame={() => setIsNewGameModalOpen(true)}
       />
 

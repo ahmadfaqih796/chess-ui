@@ -1,10 +1,10 @@
 /**
- * Modal Pengaturan & Pemilihan Game Baru (Pilih Sisi & Tingkat Kesulitan)
+ * Modal Pengaturan & Pemilihan Game Baru (Pilih Sisi, Tingkat Kesulitan, & Mode Waktu)
  */
 
-import { Check, Swords, X } from 'lucide-react'
+import { Check, Coffee, Flame, Swords, Timer, X, Zap } from 'lucide-react'
 import { useState } from 'react'
-import { DIFFICULTY_LEVELS } from '../constants/chessConstants'
+import { DIFFICULTY_LEVELS, TIME_CONTROLS } from '../constants/chessConstants'
 import { ChessPiece } from './ChessPiece'
 
 export const NewGameModal = ({
@@ -12,26 +12,41 @@ export const NewGameModal = ({
   onClose = () => {},
   currentSide = 'w',
   currentDifficulty = 'medium',
+  currentTimeControl = 'rapid_10',
   onStartGame = () => {},
 }) => {
   const [selectedSide, setSelectedSide] = useState(currentSide)
   const [selectedDifficulty, setSelectedDifficulty] = useState(currentDifficulty)
+  const [selectedTimeControl, setSelectedTimeControl] = useState(currentTimeControl)
 
   if (!isOpen) return null
 
   const handleStart = () => {
-    onStartGame(selectedSide, selectedDifficulty)
+    onStartGame(selectedSide, selectedDifficulty, selectedTimeControl)
     onClose()
+  }
+
+  const renderTimeControlIcon = (id) => {
+    switch (id) {
+      case 'rapid_10':
+        return <Timer className="h-4 w-4 text-emerald-400" />
+      case 'blitz_5':
+        return <Zap className="h-4 w-4 text-amber-400" />
+      case 'bullet_3':
+        return <Flame className="h-4 w-4 text-rose-400" />
+      default:
+        return <Coffee className="h-4 w-4 text-indigo-400" />
+    }
   }
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-md p-4 animate-in fade-in duration-200">
-      <div className="w-full max-w-lg rounded-2xl border border-slate-700 bg-slate-900 p-6 shadow-2xl relative text-left">
+      <div className="w-full max-w-xl max-h-[92vh] overflow-y-auto rounded-2xl border border-slate-700 bg-slate-900 p-5 sm:p-6 shadow-2xl relative text-left">
         {/* Tombol Tutup */}
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors"
+          className="sticky sm:absolute top-4 right-4 float-right rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-slate-100 transition-colors cursor-pointer"
           aria-label="Tutup modal"
         >
           <X className="h-5 w-5" />
@@ -44,12 +59,12 @@ export const NewGameModal = ({
           </div>
           <div>
             <h2 className="text-xl font-bold text-slate-100">Mulai Game Baru</h2>
-            <p className="text-xs text-slate-400">Faqih Chess • Atur warna bidak dan tingkat kecerdasan komputer.</p>
+            <p className="text-xs text-slate-400">Faqih Chess • Atur warna bidak, tingkat AI, dan jam catur.</p>
           </div>
         </div>
 
         {/* 1. Pilih Sisi Bidak */}
-        <div className="mt-6">
+        <div className="mt-5">
           <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">
             1. Pilih Warna Bidak Anda
           </label>
@@ -58,7 +73,7 @@ export const NewGameModal = ({
             <button
               type="button"
               onClick={() => setSelectedSide('w')}
-              className={`relative flex items-center gap-3 rounded-xl border p-3.5 text-left transition-all ${
+              className={`relative flex items-center gap-3 rounded-xl border p-3 text-left transition-all cursor-pointer ${
                 selectedSide === 'w'
                   ? 'border-amber-500 bg-amber-500/10 ring-1 ring-amber-500/50 shadow-md shadow-amber-500/10'
                   : 'border-slate-800 bg-slate-800/60 hover:bg-slate-800 hover:border-slate-700'
@@ -80,7 +95,7 @@ export const NewGameModal = ({
             <button
               type="button"
               onClick={() => setSelectedSide('b')}
-              className={`relative flex items-center gap-3 rounded-xl border p-3.5 text-left transition-all ${
+              className={`relative flex items-center gap-3 rounded-xl border p-3 text-left transition-all cursor-pointer ${
                 selectedSide === 'b'
                   ? 'border-amber-500 bg-amber-500/10 ring-1 ring-amber-500/50 shadow-md shadow-amber-500/10'
                   : 'border-slate-800 bg-slate-800/60 hover:bg-slate-800 hover:border-slate-700'
@@ -101,7 +116,7 @@ export const NewGameModal = ({
         </div>
 
         {/* 2. Pilih Tingkat Kesulitan */}
-        <div className="mt-6">
+        <div className="mt-5">
           <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">
             2. Tingkat Kesulitan AI Komputer
           </label>
@@ -114,7 +129,7 @@ export const NewGameModal = ({
                   key={level.id}
                   type="button"
                   onClick={() => setSelectedDifficulty(level.id)}
-                  className={`relative flex flex-col justify-between rounded-xl border p-3 text-left transition-all ${
+                  className={`relative flex flex-col justify-between rounded-xl border p-3 text-left transition-all cursor-pointer ${
                     isSelected
                       ? 'border-amber-500 bg-amber-500/10 ring-1 ring-amber-500/50 shadow-md shadow-amber-500/10'
                       : 'border-slate-800 bg-slate-800/50 hover:bg-slate-800 hover:border-slate-700'
@@ -126,7 +141,7 @@ export const NewGameModal = ({
                       {level.subtitle}
                     </span>
                   </div>
-                  <p className="mt-1.5 text-[11px] text-slate-400 leading-relaxed line-clamp-2">
+                  <p className="mt-1 text-[11px] text-slate-400 leading-relaxed">
                     {level.description}
                   </p>
                 </button>
@@ -135,19 +150,60 @@ export const NewGameModal = ({
           </div>
         </div>
 
+        {/* 3. Mode Batasan Waktu (Chess Clock) */}
+        <div className="mt-5">
+          <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+            3. Format Waktu Permainan (Chess Clock)
+          </label>
+          <div className="mt-2.5 grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            {Object.values(TIME_CONTROLS).map((control) => {
+              const isSelected = selectedTimeControl === control.id
+
+              return (
+                <button
+                  key={control.id}
+                  type="button"
+                  onClick={() => setSelectedTimeControl(control.id)}
+                  className={`relative flex flex-col justify-between rounded-xl border p-2.5 text-left transition-all cursor-pointer ${
+                    isSelected
+                      ? 'border-amber-500 bg-amber-500/10 ring-1 ring-amber-500/50 shadow-md shadow-amber-500/10'
+                      : 'border-slate-800 bg-slate-800/50 hover:bg-slate-800 hover:border-slate-700'
+                  }`}
+                >
+                  <div className="flex items-center justify-between w-full">
+                    <div className="flex items-center gap-1.5">
+                      {renderTimeControlIcon(control.id)}
+                      <span className="font-bold text-xs sm:text-sm text-slate-100">{control.name}</span>
+                    </div>
+                    {isSelected && <Check className="h-3.5 w-3.5 text-amber-400" />}
+                  </div>
+                  <div className="mt-2">
+                    <span className="text-[11px] font-medium text-slate-300">
+                      {control.subtitle}
+                    </span>
+                    <p className="text-[10px] text-slate-400 leading-tight mt-0.5 line-clamp-2">
+                      {control.description}
+                    </p>
+                  </div>
+                </button>
+              )
+            })}
+          </div>
+        </div>
+
         {/* Tombol Mulai */}
-        <div className="mt-7 flex gap-3">
+        <div className="mt-6 flex gap-3">
           <button
             type="button"
             onClick={onClose}
-            className="rounded-xl border border-slate-700 px-4 py-2.5 text-xs font-semibold text-slate-300 hover:bg-slate-800 transition-colors"
+            className="rounded-xl border border-slate-700 px-4 py-2.5 text-xs font-semibold text-slate-300 hover:bg-slate-800 transition-colors cursor-pointer"
           >
             Batal
           </button>
           <button
             type="button"
             onClick={handleStart}
-            className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 py-2.5 px-4 font-bold text-sm text-slate-950 shadow-lg shadow-amber-500/20 transition-all active:scale-95"
+            className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 py-2.5 px-4 font-bold text-sm text-slate-950 shadow-lg shadow-amber-500/20 transition-all active:scale-95 cursor-pointer"
           >
             <Swords className="h-4 w-4" />
             Mulai Pertandingan Sekarang

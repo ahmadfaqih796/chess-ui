@@ -8,6 +8,9 @@
   - Animasi skak (Check pulse), dot langkah legal, ring capture, serta konfeti selebrasi saat menang.
   - Notasi langkah catur (PGN/history) dan pemantau bidak yang dimakan beserta selisih poin materi (+1, +3, dll).
   - Fitur Undo (Batal Langkah), Putar Papan (Flip Board), dan Bisu Suara (Mute/Unmute).
+  - Bar Evaluasi Posisi Real-time (Evaluation Bar) dan Pemilih Tema Papan Catur (5 tema mewah).
+  - Sistem Petunjuk Cerdas (Smart Hint) dengan visualisasi petak asal/tujuan neon dan ulasan taktis master.
+  - Jam Catur Kompetitif (Chess Clock) dengan 4 mode (Rapid 10m, Blitz 5m, Bullet 3m, Santai), timer countdown real-time, peringatan audio detak jam dan bel timeout, serta penentuan kalah waktu otomatis.
 
 ## Tech Stack & Config
 - **Frontend Framework**: React 19 (`react`, `react-dom`)

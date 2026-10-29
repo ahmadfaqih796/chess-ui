@@ -2,8 +2,9 @@
  * Komponen Kartu Info Pemain (Human vs Computer)
  */
 
-import { Bot, CheckCircle2, Loader2, User } from 'lucide-react'
+import { Bot, CheckCircle2, Coffee, Loader2, Timer, User } from 'lucide-react'
 import { DIFFICULTY_LEVELS } from '../constants/chessConstants'
+import { formatTime } from '../utils/chessHelpers'
 import { CapturedPieces } from './CapturedPieces'
 
 export const PlayerCard = ({
@@ -14,13 +15,19 @@ export const PlayerCard = ({
   difficulty = 'medium',
   capturedPieces = [],
   advantage = '',
+  timeLeft = null,
 }) => {
   const isWhite = color === 'w'
   const diffInfo = DIFFICULTY_LEVELS[difficulty.toUpperCase()] || DIFFICULTY_LEVELS.MEDIUM
 
+  const isTimeAvailable = timeLeft !== null && timeLeft !== undefined
+  const isLowTime = isTimeAvailable && timeLeft <= 30 && timeLeft > 0
+  const isCriticalTime = isTimeAvailable && timeLeft <= 10 && timeLeft > 0
+  const isTimeout = isTimeAvailable && timeLeft === 0
+
   return (
     <div
-      className={`flex flex-col sm:flex-row sm:items-center justify-between gap-2 rounded-xl p-3 transition-all duration-300 border ${
+      className={`flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 rounded-xl p-3 transition-all duration-300 border ${
         isCurrentTurn
           ? 'bg-slate-800/90 border-amber-500/50 shadow-lg shadow-amber-500/10 ring-1 ring-amber-500/30'
           : 'bg-slate-900/60 border-slate-800 text-slate-400'
@@ -29,7 +36,7 @@ export const PlayerCard = ({
       <div className="flex items-center gap-3">
         {/* Avatar */}
         <div
-          className={`relative flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl font-bold shadow-md ${
+          className={`relative flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl font-bold shadow-md shrink-0 ${
             isAI
               ? 'bg-gradient-to-tr from-indigo-600 to-purple-600 text-white'
               : 'bg-gradient-to-tr from-amber-500 to-emerald-600 text-white'
@@ -95,13 +102,55 @@ export const PlayerCard = ({
         </div>
       </div>
 
-      {/* Daftar Bidak yang Ditangkap Lawan */}
-      <div className="flex justify-start sm:justify-end">
+      {/* Bagian Kanan: Bidak yang Ditangkap & Jam Catur Digital */}
+      <div className="flex items-center justify-between sm:justify-end gap-2.5 sm:gap-3.5 pt-1.5 sm:pt-0 border-t border-slate-800/60 sm:border-t-0">
         <CapturedPieces
           pieces={capturedPieces}
           advantage={advantage}
           color={isWhite ? 'b' : 'w'} // Tampilkan bidak lawan yang dimakan
         />
+
+        {/* Jam Catur Digital (Chess Clock) */}
+        <div
+          className={`flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg font-mono font-bold transition-all border shadow-sm ${
+            !isTimeAvailable
+              ? 'bg-slate-900/80 text-slate-400 border-slate-800'
+              : isTimeout
+                ? 'bg-rose-950/60 text-rose-300 border-rose-700 ring-1 ring-rose-500/40'
+                : isCurrentTurn
+                  ? isCriticalTime
+                    ? 'bg-rose-500/20 text-rose-300 border-rose-500/80 ring-2 ring-rose-500/50 shadow-md shadow-rose-500/20 animate-pulse'
+                    : isLowTime
+                      ? 'bg-amber-500/20 text-amber-300 border-amber-500/70 ring-1 ring-amber-500/40 shadow-sm shadow-amber-500/10'
+                      : 'bg-slate-800/90 text-slate-100 border-amber-500/50 ring-1 ring-amber-500/30 shadow-sm shadow-amber-500/10'
+                  : 'bg-slate-900/80 text-slate-400 border-slate-800/80'
+          }`}
+          title={
+            isTimeAvailable
+              ? `Sisa waktu: ${formatTime(timeLeft)}`
+              : 'Mode Santai (Tanpa Batasan Waktu)'
+          }
+        >
+          {isTimeAvailable ? (
+            <Timer
+              className={`h-3.5 w-3.5 sm:h-4 sm:w-4 ${
+                isCurrentTurn
+                  ? isCriticalTime
+                    ? 'text-rose-400 animate-pulse'
+                    : isLowTime
+                      ? 'text-amber-400'
+                      : 'text-amber-400'
+                  : 'text-slate-500'
+              }`}
+            />
+          ) : (
+            <Coffee className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-slate-400" />
+          )}
+
+          <span className="text-xs sm:text-sm tracking-wider">
+            {formatTime(timeLeft)}
+          </span>
+        </div>
       </div>
     </div>
   )

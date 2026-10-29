@@ -89,5 +89,18 @@
     ],
     "user_notes": "Pemain dapat meminta petunjuk langkah terbaik kapan saja tanpa khawatir halaman macet atau tidak merespons",
     "programmer_notes": "Membangun src/features/chess/utils/hintGenerator.js, src/features/chess/components/HintBanner.jsx, audio chimes di audio.js, menambahkan isHintLoading dan eksekusi non-blocking setTimeout di useChessGame.js, serta mengoptimalkan ai.js dengan SAN move ordering dan pemangkasan kandidat berlebih"
+  },
+  {
+    "name": "Catur UI | Jam Catur Kompetitif (Chess Clock)",
+    "description": "Membangun fitur jam catur kompetitif dengan 4 format waktu resmi (Rapid 10m, Blitz 5m, Bullet 3m, Santai), visual timer digital pada PlayerCard, peringatan audio detak jam dan bel timeout, serta penanganan otomatis kalah waktu",
+    "status": "completed",
+    "start_date": "2026-10-29",
+    "estimated_finish": "2026-10-29",
+    "moduleId": "94fe7b6b-2cb9-4270-ad50-38fb9ef890a9",
+    "assignees": [
+      "0be8a08d-2449-4f4c-a318-cf7b8c44afee"
+    ],
+    "user_notes": "Pemain dapat menikmati sensasi bermain catur bertempo cepat (Rapid, Blitz, Bullet, atau Santai) lengkap dengan jam digital yang berdetak dan berdenyut ketika waktu menipis",
+    "programmer_notes": "Menambahkan TIME_CONTROLS ke chessConstants.js, formatTime ke chessHelpers.js, playTickSound dan playTimeoutSound ke audio.js, mengelola state whiteTime, blackTime, timeControl, isClockRunning di useChessGame.js, memperbarui PlayerCard.jsx dengan timer monospace digital, memperkaya NewGameModal.jsx dengan selektor format waktu, mengintegrasikan badge format waktu di ChessNavbar.jsx, dan menghubungkan penanganan timeout di GameOverModal.jsx"
   }
 ]

@@ -2,7 +2,7 @@
  * Modal Hasil Akhir Pertandingan (Game Over)
  */
 
-import { RotateCcw, Settings, Trophy, XCircle } from 'lucide-react'
+import { RotateCcw, Settings, Timer, Trophy, XCircle } from 'lucide-react'
 
 export const GameOverModal = ({
   gameResult,
@@ -14,6 +14,7 @@ export const GameOverModal = ({
 
   const isPlayerWinner = gameResult.winner === playerColor
   const isDraw = gameResult.winner === 'draw'
+  const isTimeout = gameResult.reason?.includes('Waktu') || gameResult.reason?.includes('Timeout')
 
   let title = 'Kemenangan Gemilang!'
   let subtext = 'Selamat! Anda berhasil menaklukkan AI komputer dengan strategi yang luar biasa.'
@@ -23,6 +24,16 @@ export const GameOverModal = ({
     title = 'Pertandingan Seri (Remis)'
     subtext = 'Kedua pihak bermain seimbang tanpa celah untuk meraih kemenangan.'
     badgeColor = 'bg-blue-500/20 text-blue-300 border-blue-500/40'
+  } else if (isTimeout) {
+    if (isPlayerWinner) {
+      title = 'Menang Karena Waktu Lawan Habis!'
+      subtext = 'AI komputer kehabisan waktu berpikir pada jam catur. Kemenangan taktis milik Anda!'
+      badgeColor = 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+    } else {
+      title = 'Waktu Berpikir Anda Habis'
+      subtext = 'Jam catur Anda mencapai 00:00. Di format waktu cepat, manajemen waktu adalah kunci utama.'
+      badgeColor = 'bg-rose-500/20 text-rose-300 border-rose-500/40'
+    }
   } else if (!isPlayerWinner) {
     title = 'Komputer Memenangkan Laga'
     subtext = 'Lawan berhasil menemukan celah taktis. Jangan menyerah, coba lagi!'
@@ -36,6 +47,8 @@ export const GameOverModal = ({
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-tr from-amber-500 to-amber-600 text-white shadow-lg shadow-amber-500/25">
           {isPlayerWinner ? (
             <Trophy className="h-9 w-9 animate-bounce" />
+          ) : isTimeout ? (
+            <Timer className="h-9 w-9 text-rose-200 animate-pulse" />
           ) : isDraw ? (
             <RotateCcw className="h-9 w-9" />
           ) : (
@@ -56,7 +69,7 @@ export const GameOverModal = ({
           <button
             type="button"
             onClick={onRestartSame}
-            className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-amber-500 hover:bg-amber-400 py-3 px-4 font-semibold text-slate-950 transition-all hover:shadow-lg hover:shadow-amber-500/30 active:scale-95"
+            className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-amber-500 hover:bg-amber-400 py-3 px-4 font-semibold text-slate-950 transition-all hover:shadow-lg hover:shadow-amber-500/30 active:scale-95 cursor-pointer"
           >
             <RotateCcw className="h-4 w-4" />
             Tanding Ulang
@@ -65,7 +78,7 @@ export const GameOverModal = ({
           <button
             type="button"
             onClick={onOpenNewGame}
-            className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 py-3 px-4 font-semibold text-slate-200 transition-all active:scale-95"
+            className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 py-3 px-4 font-semibold text-slate-200 transition-all active:scale-95 cursor-pointer"
           >
             <Settings className="h-4 w-4" />
             Atur Ulang Game

@@ -197,3 +197,55 @@ export const playHintSound = (isMuted = false) => {
   })
 }
 
+/**
+ * Memainkan suara detak jam (ticking clock) saat waktu tersisa menipis
+ * @param {boolean} isMuted - Apakah suara dinonaktifkan
+ */
+export const playTickSound = (isMuted = false) => {
+  if (isMuted) return
+  const ctx = getAudioContext()
+  if (!ctx) return
+
+  const osc = ctx.createOscillator()
+  const gain = ctx.createGain()
+
+  osc.type = 'sine'
+  osc.frequency.setValueAtTime(950, ctx.currentTime)
+  osc.frequency.exponentialRampToValueAtTime(350, ctx.currentTime + 0.04)
+
+  gain.gain.setValueAtTime(0.25, ctx.currentTime)
+  gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.04)
+
+  osc.connect(gain)
+  gain.connect(ctx.destination)
+
+  osc.start(ctx.currentTime)
+  osc.stop(ctx.currentTime + 0.04)
+}
+
+/**
+ * Memainkan suara bel penalti waktu habis (Timeout buzzer)
+ * @param {boolean} isMuted - Apakah suara dinonaktifkan
+ */
+export const playTimeoutSound = (isMuted = false) => {
+  if (isMuted) return
+  const ctx = getAudioContext()
+  if (!ctx) return
+
+  const osc = ctx.createOscillator()
+  const gain = ctx.createGain()
+
+  osc.type = 'sawtooth'
+  osc.frequency.setValueAtTime(220, ctx.currentTime)
+  osc.frequency.setValueAtTime(146.83, ctx.currentTime + 0.2)
+
+  gain.gain.setValueAtTime(0.3, ctx.currentTime)
+  gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.45)
+
+  osc.connect(gain)
+  gain.connect(ctx.destination)
+
+  osc.start(ctx.currentTime)
+  osc.stop(ctx.currentTime + 0.45)
+}
+

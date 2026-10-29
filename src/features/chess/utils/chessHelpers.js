@@ -13,6 +13,18 @@ const INITIAL_PIECES = {
 }
 
 /**
+ * Memformat detik menjadi string menit:detik digital (MM:SS)
+ * @param {number|null} seconds - Jumlah detik tersisa
+ * @returns {string} Contoh: "10:00", "04:25", "∞"
+ */
+export const formatTime = (seconds) => {
+  if (seconds === null || seconds === undefined) return '∞'
+  const mins = Math.floor(seconds / 60)
+  const secs = seconds % 60
+  return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
+}
+
+/**
  * Menghitung daftar bidak yang sudah dimakan oleh masing-masing pihak
  * @param {object} chess - Instance chess.js
  * @returns {object} Objek { whiteCaptured: [], blackCaptured: [], materialDiff: number }
