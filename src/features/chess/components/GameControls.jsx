@@ -4,6 +4,8 @@
 
 import {
   ArrowLeftRight,
+  Lightbulb,
+  Loader2,
   Palette,
   PlusCircle,
   RotateCcw,
@@ -14,16 +16,19 @@ import {
 export const GameControls = ({
   onOpenNewGame = () => {},
   onOpenThemeModal = () => {},
+  onRequestHint = () => {},
   onUndo = () => {},
   onToggleFlip = () => {},
   onToggleMute = () => {},
   canUndo = false,
+  canRequestHint = false,
   isMuted = false,
   isThinking = false,
+  isHintLoading = false,
 }) => {
   return (
     <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-slate-800 bg-slate-900/80 p-2.5 shadow-lg backdrop-blur-md">
-      <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         {/* Tombol Game Baru */}
         <button
           type="button"
@@ -32,6 +37,22 @@ export const GameControls = ({
         >
           <PlusCircle className="h-4 w-4" />
           <span>Game Baru</span>
+        </button>
+
+        {/* Tombol Petunjuk (Smart Hint) */}
+        <button
+          type="button"
+          onClick={onRequestHint}
+          disabled={!canRequestHint || isThinking || isHintLoading}
+          className="inline-flex items-center gap-1.5 rounded-lg border border-cyan-500/40 bg-cyan-950/30 hover:bg-cyan-900/40 text-cyan-300 px-3 py-2 text-xs font-semibold transition-all disabled:opacity-40 disabled:cursor-not-allowed active:scale-95 cursor-pointer shadow-sm shadow-cyan-500/10"
+          title="Dapatkan rekomendasi langkah terbaik dari AI"
+        >
+          {isHintLoading ? (
+            <Loader2 className="h-4 w-4 animate-spin text-cyan-400" />
+          ) : (
+            <Lightbulb className="h-4 w-4 text-cyan-400" />
+          )}
+          <span>{isHintLoading ? 'Menganalisis...' : 'Petunjuk'}</span>
         </button>
 
         {/* Tombol Undo */}

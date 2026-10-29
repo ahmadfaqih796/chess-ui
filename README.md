@@ -50,7 +50,13 @@
 - **Dialog Promosi Pion:** Pilihan modal elegan saat pion mencapai baris akhir (Ratu, Benteng, Gajah, atau Kuda).
 - **Fitur Undo (Batal Langkah):** Membatalkan 1 pasang langkah (langkah AI dan langkah pemain) untuk mencoba skenario lain.
 
-### 6. 📱 Desain Responsif & Adaptif
+### 7. 💡 Sistem Petunjuk Cerdas (*Smart Hint System*)
+- Tombol *"Petunjuk"* di toolbar memberikan rekomendasi 1 langkah terbaik kelas *Master* saat pemain berada di posisi rumit.
+- Petak asal dan petak tujuan disorot dengan **cahaya cyan & hijau neon** serta label petak (`ASAL` & `TUJUAN`) yang interaktif.
+- Dilengkapi kartu ulasan taktis dalam bahasa Indonesia dan tombol *"Terapkan Langkah"* untuk mengeksekusi langkah secara instan.
+- Efek audio lonceng kilau ceria (*chime*) yang disintesis via Web Audio API.
+
+### 8. 📱 Desain Responsif & Adaptif
 - Menggunakan pendekatan *Mobile-First Design* dengan Tailwind CSS v4.
 - Tampilan navbar adaptif: teks dan ikon terorganisasi rapi tanpa terpotong di layar ponsel (320px–420px), tablet, hingga monitor resolusi tinggi.
 
@@ -96,8 +102,9 @@ catur-ui/
 │   │       │   ├── ChessNavbar.jsx     # Navigasi atas responsif Faqih Chess
 │   │       │   ├── ChessPiece.jsx      # Render vektor SVG semua bidak
 │   │       │   ├── EvaluationBar.jsx   # Bar evaluasi posisi real-time
-│   │       │   ├── GameControls.jsx    # Toolbar kontrol (Undo, Flip, Mute, New Game)
+│   │       │   ├── GameControls.jsx    # Toolbar kontrol (Undo, Flip, Mute, New Game, Hint)
 │   │       │   ├── GameOverModal.jsx   # Modal hasil skakmat/remis
+│   │       │   ├── HintBanner.jsx      # Banner saran langkah terbaik master
 │   │       │   ├── MoveHistory.jsx     # Panel notasi langkah PGN
 │   │       │   ├── NewGameModal.jsx    # Dialog pilihan warna & tingkat kesulitan
 │   │       │   ├── PlayerCard.jsx      # Kartu info pemain & indikator giliran
@@ -111,7 +118,8 @@ catur-ui/
 │   │           ├── ai.js               # Algoritma AI Minimax, Alpha-Beta & PST
 │   │           ├── audio.js            # Sintesis Web Audio API
 │   │           ├── chessHelpers.js     # Kalkulasi selisih materi & format langkah
-│   │           └── evaluation.js       # Kalkulasi matematis bar evaluasi & sigmoid
+│   │           ├── evaluation.js       # Kalkulasi matematis bar evaluasi & sigmoid
+│   │           └── hintGenerator.js    # Analisis taktik & saran langkah terbaik master
 │   ├── pages/
 │   │   └── ChessGamePage.jsx   # Halaman utama arena pertandingan
 │   ├── utils/

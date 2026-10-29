@@ -76,5 +76,18 @@
     ],
     "user_notes": "Pemain dapat mengganti tema warna papan catur kapan saja secara instan melalui tombol palet pada toolbar, dengan pilihan 5 tema mewah yang tersimpan otomatis",
     "programmer_notes": "Membuat src/features/chess/components/ThemeModal.jsx, memperluas BOARD_THEMES di chessConstants.js dengan 5 palet warna lengkap (light/dark/selected/lastMove), memperbarui ChessBoard.jsx dengan styling dinamis, menambahkan state boardTheme dan changeBoardTheme di useChessGame.js, serta mengintegrasikan tombol Palette ke GameControls.jsx"
+  },
+  {
+    "name": "Catur UI | Sistem Petunjuk Cerdas & Optimasi Mesin AI",
+    "description": "Membangun fitur rekomendasi langkah taktis AI (Smart Hint), kartu ulasan berbahasa Indonesia, serta mengoptimasi performa komputasi Minimax agar bebas lag dan tidak membekukan peramban",
+    "status": "completed",
+    "start_date": "2026-10-29",
+    "estimated_finish": "2026-10-29",
+    "moduleId": "94fe7b6b-2cb9-4270-ad50-38fb9ef890a9",
+    "assignees": [
+      "0be8a08d-2449-4f4c-a318-cf7b8c44afee"
+    ],
+    "user_notes": "Pemain dapat meminta petunjuk langkah terbaik kapan saja tanpa khawatir halaman macet atau tidak merespons",
+    "programmer_notes": "Membangun src/features/chess/utils/hintGenerator.js, src/features/chess/components/HintBanner.jsx, audio chimes di audio.js, menambahkan isHintLoading dan eksekusi non-blocking setTimeout di useChessGame.js, serta mengoptimalkan ai.js dengan SAN move ordering dan pemangkasan kandidat berlebih"
   }
 ]

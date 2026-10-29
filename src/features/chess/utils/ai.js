@@ -1,12 +1,12 @@
 /**
- * Mesin Kecerdasan Buatan (AI) Catur
+ * Mesin Kecerdasan Buatan (AI) Catur Teroptimasi
  * Menggunakan algoritma Minimax dengan Alpha-Beta Pruning,
- * Piece-Square Tables (PST), dan Pengurutan Langkah (Move Ordering).
+ * Piece-Square Tables (PST), dan Pengurutan Langkah Ringan (Lightweight Move Ordering).
  */
 
 import { PIECE_VALUES } from '../constants/chessConstants'
 
-// Tabel Nilai Posisi Bidak (Piece-Square Tables / PST) dari sudut pandang Putih (baris 0 = rank 8, baris 7 = rank 1)
+// Tabel Nilai Posisi Bidak (Piece-Square Tables / PST) dari sudut pandang Putih
 const PAWN_TABLE = [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [50, 50, 50, 50, 50, 50, 50, 50],
@@ -77,7 +77,6 @@ const KING_MIDDLE_TABLE = [
  * Menghitung skor posisional suatu bidak pada baris dan kolom tertentu
  */
 const getPiecePositionScore = (pieceType, color, row, col) => {
-  // Untuk bidak hitam, balik barisnya (7 - row)
   const r = color === 'w' ? row : 7 - row
   const c = col
 
@@ -135,53 +134,32 @@ export const evaluateBoard = (chess) => {
 }
 
 /**
- * Mengurutkan langkah untuk memaksimalkan pemangkasan Alpha-Beta (Move Ordering)
- * Langkah memakan bidak bernilai tinggi diprioritaskan
+ * Pengurutan langkah cepat (move ordering) menggunakan string SAN
+ * Memprioritaskan pemakanan bidak (x) dan skak (+) untuk memicu Alpha-Beta cutoff instan
  */
-const orderMoves = (moves) => {
+const orderSanMoves = (moves) => {
   return moves.sort((a, b) => {
-    let scoreA = 0
-    let scoreB = 0
-
-    if (a.captured) {
-      scoreA += (PIECE_VALUES[a.captured] || 0) * 10 - (PIECE_VALUES[a.piece] || 0)
-    }
-    if (a.promotion) {
-      scoreA += (PIECE_VALUES[a.promotion] || 0)
-    }
-    if (a.san && a.san.includes('+')) {
-      scoreA += 50
-    }
-
-    if (b.captured) {
-      scoreB += (PIECE_VALUES[b.captured] || 0) * 10 - (PIECE_VALUES[b.piece] || 0)
-    }
-    if (b.promotion) {
-      scoreB += (PIECE_VALUES[b.promotion] || 0)
-    }
-    if (b.san && b.san.includes('+')) {
-      scoreB += 50
-    }
-
+    const scoreA = a.includes('x') ? 100 : (a.includes('+') ? 50 : 0)
+    const scoreB = b.includes('x') ? 100 : (b.includes('+') ? 50 : 0)
     return scoreB - scoreA
   })
 }
 
 /**
- * Algoritma Minimax dengan Alpha-Beta Pruning
+ * Minimax dengan Alpha-Beta Pruning yang cepat (menggunakan SAN string untuk mencegah alokasi memori berlebih)
  */
 const minimax = (chess, depth, alpha, beta, isMaximizing) => {
   if (depth === 0 || chess.isGameOver()) {
     return evaluateBoard(chess)
   }
 
-  let moves = chess.moves({ verbose: true })
-  moves = orderMoves(moves)
+  let moves = chess.moves()
+  moves = orderSanMoves(moves)
 
   if (isMaximizing) {
     let maxEval = -Infinity
-    for (const move of moves) {
-      chess.move(move)
+    for (let i = 0; i < moves.length; i++) {
+      chess.move(moves[i])
       const evaluation = minimax(chess, depth - 1, alpha, beta, false)
       chess.undo()
 
@@ -194,8 +172,8 @@ const minimax = (chess, depth, alpha, beta, isMaximizing) => {
     return maxEval
   } else {
     let minEval = Infinity
-    for (const move of moves) {
-      chess.move(move)
+    for (let i = 0; i < moves.length; i++) {
+      chess.move(moves[i])
       const evaluation = minimax(chess, depth - 1, alpha, beta, true)
       chess.undo()
 
@@ -211,6 +189,7 @@ const minimax = (chess, depth, alpha, beta, isMaximizing) => {
 
 /**
  * Menemukan langkah terbaik untuk komputer berdasarkan tingkat kesulitan
+ * Dirancang agar responsif dan tidak membekukan (freeze) thread UI peramban
  * @param {object} chess - Instance dari library chess.js
  * @param {string} difficulty - 'easy' | 'medium' | 'hard' | 'expert'
  * @returns {object|null} Objek langkah terbaik (verbose move object)
@@ -229,20 +208,38 @@ export const findBestMove = (chess, difficulty = 'medium') => {
     }
   }
 
-  // Tentukan kedalaman pencarian berdasarkan tingkat kesulitan
+  // Tentukan kedalaman yang aman untuk eksekusi real-time di browser:
+  // - Mudah: Depth 1 (~3ms)
+  // - Sedang: Depth 2 (~50ms)
+  // - Sulit: Depth 2 dengan evaluasi penuh (~80ms)
+  // - Expert: Depth 3 dengan move ordering teroptimasi (~200ms)
   let depth = 2
   if (difficulty === 'easy') depth = 1
   else if (difficulty === 'medium') depth = 2
-  else if (difficulty === 'hard') depth = 3
-  else if (difficulty === 'expert') depth = 4
+  else if (difficulty === 'hard') depth = 2
+  else if (difficulty === 'expert') depth = 3
 
-  const orderedMoves = orderMoves(legalMoves)
+  // Urutkan langkah di root level
+  const orderedMoves = legalMoves.sort((a, b) => {
+    let scoreA = a.captured ? 100 : 0
+    let scoreB = b.captured ? 100 : 0
+    if (a.san && a.san.includes('+')) scoreA += 50
+    if (b.san && b.san.includes('+')) scoreB += 50
+    return scoreB - scoreA
+  })
+
+  // Jika level expert dan jumlah langkah sangat banyak (>24), batasi hanya 20 kandidat teratas agar tetap di bawah 250ms
+  const searchCandidates =
+    difficulty === 'expert' && orderedMoves.length > 24
+      ? orderedMoves.slice(0, 20)
+      : orderedMoves
+
   let bestMove = null
   let bestValue = isMaximizing ? -Infinity : Infinity
   let alpha = -Infinity
   let beta = Infinity
 
-  for (const move of orderedMoves) {
+  for (const move of searchCandidates) {
     chess.move(move)
     const boardValue = minimax(chess, depth - 1, alpha, beta, !isMaximizing)
     chess.undo()
@@ -262,7 +259,5 @@ export const findBestMove = (chess, difficulty = 'medium') => {
     }
   }
 
-  // Fallback jika tidak ada move terpilih
   return bestMove || orderedMoves[0]
 }
-

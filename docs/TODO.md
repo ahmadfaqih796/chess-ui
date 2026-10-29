@@ -10,3 +10,4 @@ Daftar pekerjaan dan prioritas fitur proyek Catur UI:
 - [x] Menyusun dokumentasi lengkap proyek pada README.md (fitur, tumpukan teknologi, struktur direktori, cara menjalankan aplikasi, dan cara kerja algoritma AI).
 - [x] Membangun fitur Bar Evaluasi Real-time (Evaluation Bar) di samping papan catur lengkap dengan kalkulasi matematis sigmoid, teks keunggulan posisi, dan penyesuaian rotasi balik (auto-flip).
 - [x] Membangun fitur Pemilih Tema Papan Catur (Board Theme Selector) dengan 5 palet mewah (Hutan Zamrud, Kayu Turnamen, Midnight Slate, Marmer Monokrom, Royal Amethyst) beserta persistensi localStorage.
+- [x] Membangun fitur Sistem Petunjuk Cerdas (Smart Hint System) dengan analisis AI kedalaman expert, sorotan neon petak asal/tujuan di papan catur, kartu ulasan taktik bahasa Indonesia, dan efek audio kilau chimes.

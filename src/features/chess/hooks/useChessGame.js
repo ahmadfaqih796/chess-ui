@@ -11,11 +11,13 @@ import {
   playCaptureSound,
   playCheckSound,
   playDefeatSound,
+  playHintSound,
   playMoveSound,
   playVictorySound,
 } from '../utils/audio'
 import { calculateCapturedPieces, formatMoveHistory } from '../utils/chessHelpers'
 import { calculateEvaluation } from '../utils/evaluation'
+import { generateHint } from '../utils/hintGenerator'
 
 export const useChessGame = () => {
   // Instance chess.js disimpan langsung sebagai state murni React
@@ -38,9 +40,11 @@ export const useChessGame = () => {
   const [legalMoves, setLegalMoves] = useState([])
   const [lastMove, setLastMove] = useState(null) // { from, to }
   const [pendingPromotion, setPendingPromotion] = useState(null) // { from, to }
+  const [hint, setHint] = useState(null) // { from, to, san, pieceName, explanation }
 
   // Status AI & Permainan
   const [isThinking, setIsThinking] = useState(false)
+  const [isHintLoading, setIsHintLoading] = useState(false)
   const [gameResult, setGameResult] = useState(null) // { isOver: boolean, winner: 'w'|'b'|'draw', reason: string }
 
   // Cek apakah permainan telah berakhir
@@ -123,6 +127,7 @@ export const useChessGame = () => {
       if (moveResult) {
         setSelectedSquare(null)
         setLegalMoves([])
+        setHint(null)
 
         if (nextGame.isCheck()) {
           playCheckSound(isMuted)
@@ -213,6 +218,7 @@ export const useChessGame = () => {
     setLegalMoves([])
     setLastMove(null)
     setPendingPromotion(null)
+    setHint(null)
     setGameResult(null)
     setIsThinking(false)
 
@@ -251,6 +257,7 @@ export const useChessGame = () => {
     setSelectedSquare(null)
     setLegalMoves([])
     setPendingPromotion(null)
+    setHint(null)
     setGameResult(null)
     setLastMove(null)
   }
@@ -274,6 +281,41 @@ export const useChessGame = () => {
     }
   }
 
+  // Meminta saran langkah terbaik dari AI (Smart Hint) secara asynchronous tanpa memblokir UI
+  const requestHint = () => {
+    if (gameResult?.isOver || isThinking || isHintLoading) return
+    if (game.turn() !== playerColor) return
+
+    setIsHintLoading(true)
+
+    // Berikan jeda 40ms agar browser merender status loading dan tidak pernah membeku
+    setTimeout(() => {
+      try {
+        const generated = generateHint(game)
+        if (generated) {
+          setHint(generated)
+          playHintSound(isMuted)
+        }
+      } catch (err) {
+        console.error('Gagal memproses petunjuk:', err)
+      } finally {
+        setIsHintLoading(false)
+      }
+    }, 40)
+  }
+
+  // Menerapkan langkah saran secara langsung
+  const applyHint = () => {
+    if (!hint) return
+    executeHumanMove(hint.from, hint.to)
+    setHint(null)
+  }
+
+  // Menutup tampilan saran
+  const clearHint = () => {
+    setHint(null)
+  }
+
   return {
     chess: game,
     playerColor,
@@ -285,7 +327,9 @@ export const useChessGame = () => {
     legalMoves,
     lastMove,
     pendingPromotion,
+    hint,
     isThinking,
+    isHintLoading,
     gameResult,
     history: game.history(),
     formattedHistory: formatMoveHistory(game.history()),
@@ -302,5 +346,8 @@ export const useChessGame = () => {
     toggleMute,
     setDifficulty,
     changeBoardTheme,
+    requestHint,
+    applyHint,
+    clearHint,
   }
 }

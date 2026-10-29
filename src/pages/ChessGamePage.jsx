@@ -10,6 +10,7 @@ import { ChessNavbar } from '../features/chess/components/ChessNavbar'
 import { EvaluationBar } from '../features/chess/components/EvaluationBar'
 import { GameControls } from '../features/chess/components/GameControls'
 import { GameOverModal } from '../features/chess/components/GameOverModal'
+import { HintBanner } from '../features/chess/components/HintBanner'
 import { MoveHistory } from '../features/chess/components/MoveHistory'
 import { NewGameModal } from '../features/chess/components/NewGameModal'
 import { PlayerCard } from '../features/chess/components/PlayerCard'
@@ -32,7 +33,9 @@ export const ChessGamePage = () => {
     legalMoves,
     lastMove,
     pendingPromotion,
+    hint,
     isThinking,
+    isHintLoading,
     gameResult,
     history,
     formattedHistory,
@@ -48,6 +51,9 @@ export const ChessGamePage = () => {
     toggleFlip,
     toggleMute,
     changeBoardTheme,
+    requestHint,
+    applyHint,
+    clearHint,
   } = useChessGame()
 
   const isHumanTurn = turn === playerColor
@@ -88,6 +94,15 @@ export const ChessGamePage = () => {
                 advantage={topColor === 'w' ? capturedData.whiteAdvantage : capturedData.blackAdvantage}
               />
 
+              {/* Banner Saran Langkah Cerdas (Smart Hint) */}
+              {hint && (
+                <HintBanner
+                  hint={hint}
+                  onApply={applyHint}
+                  onClose={clearHint}
+                />
+              )}
+
               {/* Papan Catur & Bar Evaluasi Posisi Real-time */}
               <div className="relative flex items-stretch justify-center gap-2 sm:gap-2.5 py-1">
                 <EvaluationBar
@@ -102,6 +117,7 @@ export const ChessGamePage = () => {
                   selectedSquare={selectedSquare}
                   legalMoves={legalMoves}
                   lastMove={lastMove}
+                  hint={hint}
                   onSquareClick={handleSquareClick}
                 />
               </div>
@@ -127,12 +143,15 @@ export const ChessGamePage = () => {
             <GameControls
               onOpenNewGame={() => setIsNewGameModalOpen(true)}
               onOpenThemeModal={() => setIsThemeModalOpen(true)}
+              onRequestHint={requestHint}
               onUndo={undoMove}
               onToggleFlip={toggleFlip}
               onToggleMute={toggleMute}
               canUndo={history.length > 0}
+              canRequestHint={isHumanTurn && !gameResult?.isOver}
               isMuted={isMuted}
               isThinking={isThinking}
+              isHintLoading={isHintLoading}
             />
 
             {/* Banner Status Pertandingan */}

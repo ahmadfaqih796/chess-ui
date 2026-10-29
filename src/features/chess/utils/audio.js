@@ -168,3 +168,32 @@ export const playDefeatSound = (isMuted = false) => {
   })
 }
 
+/**
+ * Memainkan suara petunjuk cerdas (Dua nada kilau ceria)
+ * @param {boolean} isMuted - Apakah suara dinonaktifkan
+ */
+export const playHintSound = (isMuted = false) => {
+  if (isMuted) return
+  const ctx = getAudioContext()
+  if (!ctx) return
+
+  const notes = [587.33, 880.0] // D5 dan A5
+  notes.forEach((freq, idx) => {
+    const osc = ctx.createOscillator()
+    const gain = ctx.createGain()
+    const startTime = ctx.currentTime + idx * 0.08
+
+    osc.type = 'sine'
+    osc.frequency.setValueAtTime(freq, startTime)
+
+    gain.gain.setValueAtTime(0.2, startTime)
+    gain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.25)
+
+    osc.connect(gain)
+    gain.connect(ctx.destination)
+
+    osc.start(startTime)
+    osc.stop(startTime + 0.25)
+  })
+}
+

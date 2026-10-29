@@ -13,6 +13,7 @@ export const ChessBoard = ({
   selectedSquare = null,
   legalMoves = [],
   lastMove = null,
+  hint = null,
   onSquareClick = () => {},
 }) => {
   const currentTheme = BOARD_THEMES[boardTheme] || BOARD_THEMES.emerald
@@ -58,6 +59,8 @@ export const ChessBoard = ({
             const isLastMove = lastMove && (lastMove.from === square || lastMove.to === square)
             const isLegal = legalMoveSquares.has(square)
             const isCheckedKing = checkedKingSquare === square
+            const isHintFrom = hint && hint.from === square
+            const isHintTo = hint && hint.to === square
 
             // Tentukan warna latar petak berdasarkan tema aktif
             let squareBg = isLight ? currentTheme.lightBg : currentTheme.darkBg
@@ -67,17 +70,36 @@ export const ChessBoard = ({
               squareBg = isLight ? currentTheme.lastMoveLight : currentTheme.lastMoveDark
             }
 
+            // Kelas efek ring untuk skak dan petunjuk
+            let statusRing = ''
+            if (isCheckedKing) {
+              statusRing = 'ring-4 ring-rose-500 ring-inset animate-pulse z-20'
+            } else if (isHintFrom) {
+              statusRing = 'ring-4 ring-cyan-400 ring-inset shadow-lg shadow-cyan-400/50 animate-pulse z-20'
+            } else if (isHintTo) {
+              statusRing = 'ring-4 ring-emerald-400 ring-inset shadow-lg shadow-emerald-400/50 animate-pulse z-20'
+            }
+
             return (
               <button
                 key={square}
                 type="button"
                 onClick={() => onSquareClick(square)}
                 style={{ backgroundColor: squareBg }}
-                className={`relative flex aspect-square w-full items-center justify-center p-1 transition-colors duration-150 focus:outline-none ${
-                  isCheckedKing ? 'ring-4 ring-rose-500 ring-inset animate-pulse' : ''
-                }`}
+                className={`relative flex aspect-square w-full items-center justify-center p-1 transition-colors duration-150 focus:outline-none ${statusRing}`}
                 aria-label={`Petak ${square} ${piece ? `${piece.color} ${piece.type}` : 'kosong'}`}
               >
+                {/* Badge Label Petunjuk */}
+                {isHintFrom && (
+                  <span className="absolute top-0.5 right-0.5 z-30 rounded bg-cyan-400 px-1 py-0.2 text-[7px] sm:text-[9px] font-black text-slate-950 pointer-events-none shadow">
+                    ASAL
+                  </span>
+                )}
+                {isHintTo && (
+                  <span className="absolute top-0.5 right-0.5 z-30 rounded bg-emerald-400 px-1 py-0.2 text-[7px] sm:text-[9px] font-black text-slate-950 pointer-events-none shadow">
+                    TUJUAN
+                  </span>
+                )}
                 {/* Notasi Koordinat di Petak Tepi */}
                 {fileIdx === 0 && (
                   <span
