@@ -1,0 +1,28 @@
+[
+  {
+    "name": "Catur UI | Pembaruan Rules ke JavaScript",
+    "description": "Memperbarui seluruh dokumen rules dari standar TypeScript ke standar JavaScript murni (.js / .jsx), menyelaraskan arsitektur folder, serta menghapus aturan TypeScript yang usang",
+    "status": "completed",
+    "start_date": "2026-10-29",
+    "estimated_finish": "2026-10-29",
+    "moduleId": "94fe7b6b-2cb9-4270-ad50-38fb9ef890a9",
+    "assignees": [
+      "0be8a08d-2449-4f4c-a318-cf7b8c44afee"
+    ],
+    "user_notes": "Seluruh pedoman agen AI kini telah diselaraskan dengan basis kode proyek yang menggunakan JavaScript murni (React 19 + JS/JSX + Vite)",
+    "programmer_notes": "Menghapus .agents/rules/typescript-guidelines.md, membuat .agents/rules/javascript-guidelines.md, memperbarui architecture-react.md (mengganti folder types/ menjadi constants/ dan menegaskan ekstensi .jsx/.js), memperbaiki referensi file di vibe-code.md (i18n.js), serta menginisialisasi docs/MEMORY.md dan docs/TODO.md"
+  },
+  {
+    "name": "Catur UI | Game Catur Human vs Computer",
+    "description": "Membangun game catur interaktif Human vs Computer dengan 4 level kesulitan AI, pilihan bidak Putih atau Hitam, efek suara Web Audio API, notasi langkah, animasi interaktif, dan layout responsif",
+    "status": "completed",
+    "start_date": "2026-10-29",
+    "estimated_finish": "2026-10-29",
+    "moduleId": "94fe7b6b-2cb9-4270-ad50-38fb9ef890a9",
+    "assignees": [
+      "0be8a08d-2449-4f4c-a318-cf7b8c44afee"
+    ],
+    "user_notes": "Pemain dapat bermain catur melawan komputer dengan memilih tingkat kesulitan (Mudah sampai Expert) serta memilih warna bidak (Putih/Hitam) dengan antarmuka modern dan responsif",
+    "programmer_notes": "Mengimplementasikan modul catur di src/features/chess (ChessBoard.jsx, ChessPiece.jsx, CapturedPieces.jsx, PlayerCard.jsx, MoveHistory.jsx, PromotionModal.jsx, NewGameModal.jsx, GameOverModal.jsx, GameControls.jsx), hook useChessGame.js, mesin AI Minimax + Alpha-Beta di ai.js, synthesizer Web Audio API di audio.js, dan halaman ChessGamePage.jsx"
+  }
+]
