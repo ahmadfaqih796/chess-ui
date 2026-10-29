@@ -24,5 +24,18 @@
     ],
     "user_notes": "Pemain dapat bermain catur melawan komputer dengan memilih tingkat kesulitan (Mudah sampai Expert) serta memilih warna bidak (Putih/Hitam) dengan antarmuka modern dan responsif",
     "programmer_notes": "Mengimplementasikan modul catur di src/features/chess (ChessBoard.jsx, ChessPiece.jsx, CapturedPieces.jsx, PlayerCard.jsx, MoveHistory.jsx, PromotionModal.jsx, NewGameModal.jsx, GameOverModal.jsx, GameControls.jsx), hook useChessGame.js, mesin AI Minimax + Alpha-Beta di ai.js, synthesizer Web Audio API di audio.js, dan halaman ChessGamePage.jsx"
+  },
+  {
+    "name": "Catur UI | Branding Faqih Chess & Perbaikan Navbar Responsif",
+    "description": "Menerapkan merek Faqih Chess dengan tipografi emas, ikon mahkota, judul dokumen, serta merestrukturisasi komponen navbar agar adaptif dan rapi pada semua ukuran layar perangkat seluler",
+    "status": "completed",
+    "start_date": "2026-10-29",
+    "estimated_finish": "2026-10-29",
+    "moduleId": "94fe7b6b-2cb9-4270-ad50-38fb9ef890a9",
+    "assignees": [
+      "0be8a08d-2449-4f4c-a318-cf7b8c44afee"
+    ],
+    "user_notes": "Tampilan navigasi kini mengusung merek Faqih Chess dan tampil proporsional tanpa terpotong di layar smartphone maupun desktop",
+    "programmer_notes": "Mengekstrak dan merancang src/features/chess/components/ChessNavbar.jsx dengan styling Tailwind CSS v4, mengatur breakpoint responsif teks dan tombol, memperbarui index.html, serta mengintegrasikan ChessNavbar ke ChessGamePage.jsx"
   }
 ]
