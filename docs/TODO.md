@@ -7,3 +7,4 @@ Daftar pekerjaan dan prioritas fitur proyek Catur UI:
 - [x] Menyiapkan alias path `@/` pada konfigurasi build (`vite.config.js`) dan editor (`jsconfig.json`).
 - [x] Memastikan kepatuhan linting ESLint dan kesuksesan Vite production build.
 - [x] Merancang branding eksklusif "Faqih Chess" dan memperbaiki responsivitas navbar pada layar mobile/tablet.
+- [x] Menyusun dokumentasi lengkap proyek pada README.md (fitur, tumpukan teknologi, struktur direktori, cara menjalankan aplikasi, dan cara kerja algoritma AI).
